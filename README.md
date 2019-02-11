@@ -26,13 +26,18 @@ The BG96 and X-NUCLEO-IKS01A2 are already connected to each other in the box.  E
 
 ![alt text](images/sim_details.png)
 
+*[Image used from element14 Blog](https://www.element14.com/community/groups/mbed/blog/2018/09/21/implementing-an-azure-iot-client-using-the-mbed-os-part-2)*
+
 Also, please ensure that the Rx/Tx slide switches are set as shown (maroon switches away from the BG96 chip:
 
 ![alt text](images/board_switches.png)
 
+*[Image used from element14 Blog](https://www.element14.com/community/groups/mbed/blog/2018/09/21/implementing-an-azure-iot-client-using-the-mbed-os-part-2)*
+
 Connect the BG96 with sensor module to the L496 MCU so it looks like below:
 
 ![alt text](images/iot_board.png)
+*[Image used from element14 Blog](https://www.element14.com/community/groups/mbed/blog/2018/09/21/implementing-an-azure-iot-client-using-the-mbed-os-part-2)*
 
 
 Now your hardware is ready to be connected and programmed.
@@ -243,3 +248,8 @@ module.exports = function (context, IoTHubMessages) {
 ```
 
 Can’t wait to see what you come up with!
+
+
+### Acknowledgements
+
+Big thanks to [James Flynn](https://github.com/jflynn129) of Avnet for writing the original blog series and helper tools that this README is based off and uses. You can find the 2 related articles authored by James [here](https://www.element14.com/community/groups/mbed/blog/2018/09/21/implementing-an-azure-iot-client-using-the-mbed-os-part-1) and [here](https://www.element14.com/community/groups/mbed/blog/2018/09/21/implementing-an-azure-iot-client-using-the-mbed-os-part-2)
