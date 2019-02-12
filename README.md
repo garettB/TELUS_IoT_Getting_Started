@@ -154,7 +154,9 @@ If you’ve stuck with my rambling til now, I’m happy to say you’re now read
 2. Change to the directory to “azure-iot-mbed-client”
 3. Plug a USB cable from the L496 MCU (white board) using the micro-usb cable into your computer
 4. Check to see if there is a USB drive detected called NODE_L496ZG.  This means your board is connected.
-5. Run the command mbed compile –m NUCLEO_L496ZG –t GCC_ARM --profile toolchain_debug.json (you may need to prepend the command with `python -m` on Windows or use `sudo` on Mac)
+5. Run the command:
+  * ```mbed compile -m NUCLEO_L496ZG -t GCC_ARM --profile toolchain_debug.json```
+    * *You may need to prepend the command with `python -m` on Windows or use `sudo` on Mac*
 6. If all goes well, you will see the mbed compiler start creating your new bin file.  When it is complete, the file can be found in ./BUILD/NUCLEO_L496ZG/GCC_ARM/azure-iot-mbed-client.bin
 7. Drag the created binary over to the NODE_L496ZG drive, this will load the new client software and reboot your IoT board
 
