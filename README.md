@@ -170,6 +170,8 @@ Here’s an example of the payload sent from my device:
 }
 ```
 
+The actual data fed into your Azure function will be the JSON contents of the `payload` object.
+
 ### Monitoring Data
 
 If all goes well, your hub will start receiving the data from your board without incident. If any issues arise, or you just want to have a better idea of what is being sent to your Hub, it would be helpful to be able to see what exactly your board is doing and the raw data being sent.
@@ -213,7 +215,7 @@ By following the above tutorial your TELUS LTE-M IoT Starter Kit is now connecte
 I recommend making use of one of the fantastic tutorials for how to do something with your IoT data (e.g. store it in a database, trigger an action if the data meets some criteria). This one is great to get you started:
 https://github.com/Azure-Samples/functions-js-iot-hub-processing
 
-Just bear in mind that the data being sent from your IoT board is in a different format than expected by the tutorial, so you will need to add your own parsing logic. I have updated the Function code to work with the TELUS IoT board for your convenience:
+Just bear in mind that the data being sent from your IoT board is in a different format than expected by the tutorial, so you will need to add your own parsing logic. I have updated the Function code to work with the TELUS IoT board:
 ```
 module.exports = function (context, IoTHubMessages) {
     context.log(`JavaScript eventhub trigger function called for message array: ${IoTHubMessages}`);
@@ -225,11 +227,10 @@ module.exports = function (context, IoTHubMessages) {
     var deviceId = "";
 
     IoTHubMessages.forEach(message => {
-        payload = JSON.parse(message.event.payload)
         count++;
-        totalTemperature += parseFloat(payload.Temperature);
-        totalHumidity += parseFloat(payload.Humidity);
-        deviceId = message.event.origin;
+        totalTemperature += parseFloat(message.Temperature);
+        totalHumidity += parseFloat(message.Humidity);
+        deviceId = message.ObjectName;
     });
 
     var output = {
