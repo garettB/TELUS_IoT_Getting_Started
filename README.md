@@ -22,7 +22,7 @@ It includes all the features you need to develop a connected product based on an
 
 ### Configuring Your IoT Hardware
 
-The BG96 and X-NUCLEO-IKS01A2 are already connected to each other in the box.  Ensure that the switch is in the eSIM position. Some important parts of the board are below:
+The BG96 and X-NUCLEO-IKS01A2 are already connected to each other in the box.  Ensure that the switch is in the SIM position. Some important parts of the board are below:
 
 ![alt text](images/sim_details.png)
 
@@ -122,7 +122,6 @@ At this point we have everything we need to complete the configuration of your T
 
 Getting back to the “Download the Avnet Azure IoT Client” step from earlier on in the tutorial, hopefully it has completed importing which should have created a folder for you named “azure-iot-mbed-client”, within this folder there are 3 different files we need to configure. Open the following files in your editor of choice, the screenshots from below are from [Atom](https://atom.io/):
 1. AvnetBG96_azure_client.cpp
-2. mbed_app.json
 3. mbed_settings.py
 
 #### AvnetBG96_azure_client.cpp
@@ -132,12 +131,6 @@ This file handles the sensor information gathering from the IoT board sensors, c
 The only thing we need to configure in this file is the name of the IoT device (`deviceId`, line 83) and setting the connection string (`connectionString`, line 81). Set the device ID to the name you used for the IoT device in Azure, and set the connection string to the “Connection String - primary key” we just copied a couple steps ago when creating the IoT device. One thing to note, the device ID is actually part of the connection string. Below is a screenshot of my configured file:
 
 ![alt text](images/avnetbg96_azure_client_config.png)
-
-#### mbed_app.json
-
-This file requires a relatively small change, all we are doing is changing the `DEFAULT_APN` from `m2m-east.telus.iot` to `pp.telus.com`:
-
-![alt text](images/m2m-east.telus.iot_config.png)
 
 #### mbed_settings.py
 
