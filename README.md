@@ -56,6 +56,20 @@ There are several tools we’ll need to use throughout this tutorial, so let’s
 #### Windows
 Add Python to your user or systems PATH environment variable
 
+### Install PIP, the Python Package Installer
+
+PIP is a command-line tool that installs Python packages, it is the standard for installing requirements for Python projects and we will need to use it to gather dependencies before we can compile the MBED-OS.
+1. From the command-line run the following command to retrieve the PIP install script:
+  * `curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py`
+1. Run the following command to retrieve and install PIP:
+  * `python get-pip.py`
+
+Verify PIP is installed correctly and ensure your Python `setuptools` package is up-to-date by running the following command:
+* `python -m pip install --upgrade setuptools`
+* If you encounter errors with the above command, try appending `--user` and re-run
+
+That's all for PIP for now, we'll reference it again a bit later.
+
 ### MBED Command Line (mbed-cli)
 The mbed-cli is hosted on github and built in Python, so we can download it using `git` and compile using `Python`, now that we have made sure both are installed on our computer.
 
@@ -144,14 +158,17 @@ NOTE: Ensure you include the trailing slash, ‘/’ on a Mac, or compilation wi
 
 If you’ve stuck with my rambling til now, I’m happy to say you’re now ready to compile the Azure client and get it loaded to your IoT device. The following steps will get your client compiled and loaded to your board:
 1. Run the terminal or command-line on your Mac or Windows PC respectively
-2. Change to the directory to “azure-iot-mbed-client”
-3. Plug a USB cable from the L496 MCU (white board) using the micro-usb cable into your computer
-4. Check to see if there is a USB drive detected called NODE_L496ZG.  This means your board is connected.
-5. Run the command:
+1. Change to the directory to “azure-iot-mbed-client”
+1. Install the required Python packages by running the command:
+  * `python -m pip install -r mbed-os/requirements.txt`
+  * If you encounter errors, try appending `--user` to the abve command and re-run
+1. Plug a USB cable from the L496 MCU (white board) using the micro-usb cable into your computer
+1. Check to see if there is a USB drive detected called NODE_L496ZG.  This means your board is connected.
+1. Run the command:
   * ```mbed compile -m NUCLEO_L496ZG -t GCC_ARM --profile toolchain_debug.json```
     * *You may need to prepend the command with `python -m` on Windows or use `sudo` on Mac*
-6. If all goes well, you will see the mbed compiler start creating your new bin file.  When it is complete, the file can be found in ./BUILD/NUCLEO_L496ZG/GCC_ARM/azure-iot-mbed-client.bin
-7. Drag the created binary over to the NODE_L496ZG drive, this will load the new client software and reboot your IoT board
+1. If all goes well, you will see the mbed compiler start creating your new bin file.  When it is complete, the file can be found in ./BUILD/NUCLEO_L496ZG/GCC_ARM/azure-iot-mbed-client.bin
+1. Drag the created binary over to the NODE_L496ZG drive, this will load the new client software and reboot your IoT board
 
 Once your board reboots it will immediately attempt to connect to the network, read sensor data and send that data to your IoT Hub.
 
@@ -180,7 +197,7 @@ With the IoT board connected to your computer you are able to analyze the board 
 2. Issue the command screen /dev/tty.usbmodemxxxxx 115200 (where xxxxx is for your particular Mac).  This connects to your device and displays the terminal output with baud rate of 115200.
 
 #### Windows
-1. Download and install the [Quectel LTE USB Driver](https://www.quectel.com/product/bg96.htm)
+1. Download and install the [Quectel LTE USB Driver](files/Quectel_LTE_Windows_USB_Driver_V1.0.zip)
 2. Using your client of choice (I prefer [Putty](https://www.putty.org/)) open a Serial connection to the COM port the board is using (you can determine this using Windows’ Device Manager), and a Baud Rate of 115200.
 
 If you don’t see anything in the terminal after following the above steps, press the black “RESET B2” button on the white board, this will reboot the board and should present you with a screen similar to this one in the terminal:
@@ -195,6 +212,8 @@ The Azure CLI tool will let us monitor the payloads sent from the board to Azure
 1. Issue the following command to log in to Azure from the command-line
   * `az login`
   * A browser will open, log in using your Azure credentials
+1. Install the Azure IoT extension:
+  * `az extension add --name azure-cli-iot-ext`
 1. Retrieve the “Connection String - primary key” that you copied earlier when you created your IoT Hub, with it, issue the following command in the command-line terminal:
   * `az iot hub monitor-events --login "<your_connection_string"`
 
@@ -218,18 +237,17 @@ module.exports = function (context, IoTHubMessages) {
     var count = 0;
     var totalTemperature = 0.0;
     var totalHumidity = 0.0;
-    var deviceId = "";
-    var deviceId = "";
+    var deviceName = "";
 
     IoTHubMessages.forEach(message => {
         count++;
         totalTemperature += parseFloat(message.Temperature);
         totalHumidity += parseFloat(message.Humidity);
-        deviceId = message.ObjectName;
+        deviceName = message.ObjectName;
     });
 
     var output = {
-        "deviceId": deviceId,
+        "deviceName": deviceName,
         "measurementsCount": count,
         "averageTemperature": totalTemperature/count,
         "averageHumidity": totalHumidity/count
