@@ -12,7 +12,7 @@ A 2FF SIM connector accommodates the TELUS Starter SIM that is included in the k
 2. X-NUCLEO-IKS01A2 sensor board for the STM32
 It is equipped with Arduino UNO R3 connector layout and is designed around the LSM6DSL 3D accelerometer and 3D gyroscope, the LSM303AGR 3D accelerometer and 3D magnetometer, the HTS221 humidity and temperature sensor and the LPS22HB pressure sensor
 3. NUCLEO L496ZG-P MCU
-The NUCLEO-L496ZG microcontroller board is fitted with an STM32L496ZG microcontroller, clocked at 80 MHz, with 1MB Flash memory, 320 KB RAM (for development flexibility), up to 115 GPIOs, an on-board ST-LINK/V2-1 debugger/programmer, and multiple expansion interfaces (USB OTG host interface, ArduinoTM Uno V3 compatible expansion headers and ST Morpho headers), and is supported by comprehensive STM32 free software libraries and examples.
+The NUCLEO-L496ZG micro-controller board is fitted with an STM32L496ZG micro-controller, clocked at 80 MHz, with 1MB Flash memory, 320 KB RAM (for development flexibility), up to 115 GPIOs, an on-board ST-LINK/V2-1 debugger/programmer, and multiple expansion interfaces (USB OTG host interface, Arduino<sup>TM</sup> Uno V3 compatible expansion headers and ST Morpho headers), and is supported by comprehensive STM32 free software libraries and examples.
 
 
 ### MBed OS
@@ -23,6 +23,8 @@ It includes all the features you need to develop a connected product based on an
 ### Configuring Your IoT Hardware
 
 The BG96 and X-NUCLEO-IKS01A2 are already connected to each other in the box.  Ensure that the switch is in the SIM position. Some important parts of the board are below:
+
+Ensure the SIM switch is in the `SIM` position, and the SIM is inserted with the notch close to the switch.
 
 ![alt text](images/sim_details.png)
 
@@ -56,6 +58,8 @@ There are several tools we’ll need to use throughout this tutorial, so let’s
 #### Windows
 Add Python to your user or systems PATH environment variable
 
+   **TIP** Python 2 is required for this tutorial, if you have both Python 2 and 3 installed you can substitute `python` in the command-line with `py -2` for the remainder of this tutorial which will ensure Python 2 is being used*
+
 ### Install PIP, the Python Package Installer
 
 PIP is a command-line tool that installs Python packages, it is the standard for installing requirements for Python projects and we will need to use it to gather dependencies before we can compile the MBED-OS.
@@ -83,7 +87,7 @@ Now you should be able to run the `mbed` command from your command-line, you may
 ### Download the Avnet Azure IoT Client
 Avnet has created a client for the TELUS IoT starter kit that, with a couple of configuration tweaks, is ready to compile and load onto your IoT board.
 
-Get the client downloaded by running the following from the command-line:
+Get the client downloaded by running the following from the command-line, this will create a folder with loads of files, so be sure to run the command in a folder that works for you:
 1. `mbed import https://github.com/Avnet/azure-iot-mbed-client`
 Note: In Windows you may need to prepend that command with `python -m`
 
@@ -158,7 +162,7 @@ NOTE: Ensure you include the trailing slash, ‘/’ on a Mac, or compilation wi
 
 If you’ve stuck with my rambling til now, I’m happy to say you’re now ready to compile the Azure client and get it loaded to your IoT device. The following steps will get your client compiled and loaded to your board:
 1. Run the terminal or command-line on your Mac or Windows PC respectively
-1. Change to the directory to “azure-iot-mbed-client”
+1. Change to the directory to `azure-iot-mbed-client` (this is created in the same directory where we ran `mbed import` above)
 1. Install the required Python packages by running the command:
   * `python -m pip install -r mbed-os/requirements.txt`
   * If you encounter errors, try appending `--user` to the abve command and re-run
@@ -167,7 +171,7 @@ If you’ve stuck with my rambling til now, I’m happy to say you’re now read
 1. Run the command:
   * ```mbed compile -m NUCLEO_L496ZG -t GCC_ARM --profile toolchain_debug.json```
     * *You may need to prepend the command with `python -m` on Windows or use `sudo` on Mac*
-1. If all goes well, you will see the mbed compiler start creating your new bin file.  When it is complete, the file can be found in ./BUILD/NUCLEO_L496ZG/GCC_ARM/azure-iot-mbed-client.bin
+1. If all goes well, you will see the mbed compiler start creating your new bin file.  When it is complete, the file can be found here, relative to the `azure-iot-mbed-client` directory you should still be in: `BUILD/NUCLEO_L496ZG/GCC_ARM/azure-iot-mbed-client.bin`
 1. Drag the created binary over to the NODE_L496ZG drive, this will load the new client software and reboot your IoT board
 
 Once your board reboots it will immediately attempt to connect to the network, read sensor data and send that data to your IoT Hub.
